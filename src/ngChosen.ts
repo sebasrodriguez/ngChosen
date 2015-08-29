@@ -3,9 +3,6 @@ module ngChosen {
 	"use strict";
 
 	class AngularChosenDirective implements ng.IDirective {
-		constructor(){
-		}
-
 		private loading(element: any, loading:boolean): void {
 			element.toggleClass("loading", loading).attr("disabled", loading);
 			this.updateChosen(element);
@@ -56,11 +53,11 @@ module ngChosen {
 				var origRender = ngModelCtrl.$render;
 				ngModelCtrl.$render = () => {
 					origRender();
-					return this.updateChosen(elem);
+					this.updateChosen(elem);
 				};
 				if (attributes.multiple) {
 					scope.$watch(function() {
-						return ngModelCtrl.$viewValue;
+						ngModelCtrl.$viewValue;
 					}, ngModelCtrl.$render, true);
 				}
 			}
