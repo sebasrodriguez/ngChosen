@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="ngChosenExample">
+<head>
+    <title>ngChosen Example</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="fragment" content="!">
+
+    <link href="../bower_components/chosen/chosen.min.css" rel="stylesheet" />
+    <link href="../src/ngChosen.css" rel="stylesheet" />
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/chosen/chosen.jquery.min.js"></script>
+    <script src="../src/ngChosen.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div ng-controller="ExampleController as ctrl">
+        <select
+        ng-chosen
+        multiple
+        ng-model="ctrl.selectedCountries"
+        data-placeholder="Choose an option..."
+        datasource="ctrl.countries"
+        no-results-text="No results found"
+        ng-options="country.name for country in ctrl.countries"
+        style="width: 350px;">
+            <option value=""></option>
+        </select>
+
+        <select
+        ng-chosen
+        ng-model="ctrl.selectedCountry"
+        data-placeholder="Choose an option..."
+        datasource="ctrl.countries"
+        no-results-text="No results found"
+        allow-single-deselect="true"
+        ng-options="country.name for country in ctrl.countries"
+        style="width: 350px;">
+            <option value=""></option>
+        </select>
+
+        <input type="button" value="click" text="click" ng-click="ctrl.click()"/>
+
+    </div>
+</body>
+</html>
