@@ -29,22 +29,34 @@ module.exports = function(grunt) {
             }
         },
         ts: {
-            default: {
-                src: ["<%= vars.src %>/*.ts"],
+            options: {
+                target: "ES5",
+                removeComments: false,
+                references: [
+                    "<%= vars.root %>/typings/**/*.d.ts"
+                ]
+            },
+            debug: {
+                src: ["<%= vars.src %>/*.ts"]
+            },
+            release: {
                 options: {
-                    target: "ES5",
-                    removeComments: false,
-                    references: [
-                        "<%= vars.root %>/typings/**/*.d.ts"
-                    ]
-                }
+                    removeComments: true,
+                    sourceMap: false,
+                    fast: "never"
+                },
+                files: [{ src: ["<%= vars.src %>/*.ts"], dest: "<%= vars.dist %>/" }]
             }
         }
     });
 
-    grunt.registerTask('debug', [
-        'ts',
-        'connect:debug',
-        'watch'
+    grunt.registerTask("debug", [
+        "ts:debug",
+        "connect:debug",
+        "watch"
+    ]);
+
+    grunt.registerTask("build", [
+        "ts:release"
     ]);
 };
