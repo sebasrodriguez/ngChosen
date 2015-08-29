@@ -24,6 +24,7 @@
         ng-model="ctrl.selectedCountries"
         data-placeholder="Choose an option..."
         datasource="ctrl.countries"
+        disable-search="true"
         no-results-text="No results found"
         ng-options="country.name for country in ctrl.countries"
         style="width: 350px;">

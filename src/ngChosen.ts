@@ -33,12 +33,16 @@ module ngChosen {
         scope = {
         	placeholder: "@",
         	noResultsText: "@",
-        	datasource: "="
+        	datasource: "=",
+        	allowSingleDeselect: "@",
+        	disableSearch: "@"
         };
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
 			var elem = element;
 			elem.addClass("ng-chosen").chosen({
-				no_results_text: scope.noResultsText
+				no_results_text: scope.noResultsText,
+				allow_single_deselect: scope.allowSingleDeselect,
+				disable_search: scope.disableSearch
 			});
 
 			scope.$watchCollection("datasource", (newValue, oldValue) => {
