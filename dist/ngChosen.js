@@ -21,19 +21,25 @@ var ngChosen;
                     allow_single_deselect: scope.allowSingleDeselect,
                     disable_search: scope.disableSearch
                 });
+                var chosen = elem.data("chosen");
+                chosen.defaultText = chosen.default_text;
+                elem.data("chosen", chosen);
                 scope.$watchCollection("datasource", function (newValue, oldValue) {
-                    if (angular.isUndefined(newValue) || _this.isEmpty(newValue)) {
-                        _this.loading(elem, true);
+                    if (angular.isUndefined(newValue)) {
+                        _this.updateState(elem, true, true, true);
+                    }
+                    else if (_this.isEmpty(newValue)) {
+                        _this.updateState(elem, false, true, true);
                     }
                     else {
-                        _this.loading(elem, false);
+                        _this.updateState(elem, false, false, false);
                     }
                 });
                 if (ngModelCtrl) {
                     var origRender = ngModelCtrl.$render;
                     ngModelCtrl.$render = function () {
                         origRender();
-                        _this.updateChosen(elem);
+                        _this.triggerUpdate(elem);
                     };
                     if (attributes.multiple) {
                         scope.$watch(function () {
@@ -43,9 +49,18 @@ var ngChosen;
                 }
             };
         }
-        AngularChosenDirective.prototype.loading = function (element, loading) {
-            element.toggleClass("loading", loading).attr("disabled", loading);
-            this.updateChosen(element);
+        AngularChosenDirective.prototype.updateState = function (element, loading, disabled, showNoResultsText) {
+            element.toggleClass("loading", loading).attr("disabled", disabled);
+            var data = element.data("chosen");
+            if (data) {
+                if (showNoResultsText) {
+                    element.attr("data-placeholder", data.results_none_found);
+                }
+                else {
+                    element.attr("data-placeholder", data.defaultText);
+                }
+            }
+            this.triggerUpdate(element);
         };
         AngularChosenDirective.prototype.isEmpty = function (object) {
             if (angular.isArray(object)) {
@@ -61,7 +76,7 @@ var ngChosen;
             }
             return true;
         };
-        AngularChosenDirective.prototype.updateChosen = function (element) {
+        AngularChosenDirective.prototype.triggerUpdate = function (element) {
             if (element) {
                 element.trigger("chosen:updated");
             }

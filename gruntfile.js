@@ -45,7 +45,7 @@ module.exports = function(grunt) {
                     sourceMap: false,
                     fast: "never"
                 },
-                files: [{ src: ["<%= vars.src %>/*.ts"], dest: "<%= vars.dist %>/" }]
+                files: [{ src: ["<%= vars.src %>/ngChosen.ts"], dest: "<%= vars.dist %>/" }]
             }
         }
     });
