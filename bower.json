@@ -1,9 +1,13 @@
 {
-  "name": "ng-chosen",
-  "version": "0.1.0",
+  "name": "ngChosen",
+  "version": "0.1.1",
   "authors": [
     "sebasrodriguez@gmail.com"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sebasrodriguez/ngChosen.git"
+  },
   "description": "Chosen angular wrapper",
   "main": ["dist/ngChosen.js", "dist/spinner.gif", "dist/ngChosen.css"],
   "keywords": [
