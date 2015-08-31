@@ -5,7 +5,7 @@
     "sebasrodriguez@gmail.com"
   ],
   "description": "Chosen angular wrapper",
-  "main": "dist/ngChosen.js",
+  "main": ["dist/ngChosen.js", "dist/spinner.gif", "dist/ngChosen.css"],
   "keywords": [
     "angularjs",
     "angular",
