@@ -57,15 +57,19 @@ module ngChosen {
 				disable_search: scope.disableSearch
 			});
 
-			scope.$watchCollection("datasource", (newValue, oldValue) => {
-				if (angular.isUndefined(newValue)) {
-					this.updateState(elem, true, true, true);
-				} else if (this.isEmpty(newValue)) {
-					this.updateState(elem, false, true, true);
-				} else {
-					this.updateState(elem, false, false, false);
-				}
-			});
+			if(elem.attr("datasource") !== undefined) {
+				scope.$watchCollection("datasource", (newValue, oldValue) => {
+					if (angular.isUndefined(newValue)) {
+						this.updateState(elem, true, true, true);
+					} else if (this.isEmpty(newValue)) {
+						this.updateState(elem, false, true, true);
+					} else {
+						this.updateState(elem, false, false, false);
+					}
+				});
+			} else {
+				this.updateState(elem, false, false, false);
+			}
 
 			attributes.$observe("selectText", (newValue) => {
 				this.updatePlaceholder(elem, newValue);

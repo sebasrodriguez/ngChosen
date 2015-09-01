@@ -24,17 +24,22 @@ var ngChosen;
                     allow_single_deselect: scope.allowSingleDeselect,
                     disable_search: scope.disableSearch
                 });
-                scope.$watchCollection("datasource", function (newValue, oldValue) {
-                    if (angular.isUndefined(newValue)) {
-                        _this.updateState(elem, true, true, true);
-                    }
-                    else if (_this.isEmpty(newValue)) {
-                        _this.updateState(elem, false, true, true);
-                    }
-                    else {
-                        _this.updateState(elem, false, false, false);
-                    }
-                });
+                if (elem.attr("datasource") !== undefined) {
+                    scope.$watchCollection("datasource", function (newValue, oldValue) {
+                        if (angular.isUndefined(newValue)) {
+                            _this.updateState(elem, true, true, true);
+                        }
+                        else if (_this.isEmpty(newValue)) {
+                            _this.updateState(elem, false, true, true);
+                        }
+                        else {
+                            _this.updateState(elem, false, false, false);
+                        }
+                    });
+                }
+                else {
+                    _this.updateState(elem, false, false, false);
+                }
                 attributes.$observe("selectText", function (newValue) {
                     _this.updatePlaceholder(elem, newValue);
                     _this.triggerUpdate(elem);
