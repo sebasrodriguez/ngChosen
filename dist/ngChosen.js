@@ -89,6 +89,7 @@ var ngChosen;
         };
         return AngularChosenDirective;
     })();
+    /*@ngInject*/
     function directive() {
         return new AngularChosenDirective();
     }

@@ -7,6 +7,27 @@ module.exports = function(grunt) {
             src: "src/",
             dist: "dist/"
         },
+        clean: {
+            options: { force: true, noWrite: true },
+            dist: {
+                src: ["<%= vars.dist %>/**/*"]
+            },
+            cleanupDist: {
+                src: ["<%= vars.dist %>/*.ts"]
+            }
+        },
+        copy: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: "<%= vars.src %>",
+                        src: ["ngChosen.css", "spinner.gif", "ngChosen.ts"],
+                        dest: "<%= vars.dist %>"
+                    }
+                ]
+            }
+        },
         watch: {
             options: {
                 cwd: "<%= vars.src %>"
@@ -39,13 +60,52 @@ module.exports = function(grunt) {
             debug: {
                 src: ["<%= vars.src %>/*.ts"]
             },
-            release: {
+            dist: {
                 options: {
-                    removeComments: true,
                     sourceMap: false,
                     fast: "never"
                 },
-                files: [{ src: ["<%= vars.src %>/ngChosen.ts"], dest: "<%= vars.dist %>/" }]
+                files: [{ src: ["<%= vars.dist %>/*.ts"], dest: "<%= vars.dist %>/" }]
+            }
+        },
+        ngAnnotate: {
+            default: {
+                expand: true,
+                cwd: '<%= vars.dist %>',
+                src: ['**/*.js'],
+                dest: '<%= vars.dist %>'
+            }
+        },
+        uglify: {
+            options: {
+                beautify: false
+            },
+            default: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: "<%= vars.dist %>",
+                        src: ["**/*.js"],
+                        dest: "<%= vars.dist %>",
+                        ext: ".min.js"
+                    }
+                ]
+            }
+        },
+        cssmin: {
+            options: {
+                keepSpecialComments: 0
+            },
+            default: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: "<%= vars.dist %>",
+                        src: ["**/*.css"],
+                        dest: "<%= vars.dist %>",
+                        ext: ".min.css"
+                    }
+                ]
             }
         }
     });
@@ -57,6 +117,11 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask("build", [
-        "ts:release"
+        "clean:dist",
+        "copy:dist",
+        "ts:dist",
+        "uglify",
+        "cssmin",
+        "clean:cleanupDist"
     ]);
 };
