@@ -22,9 +22,9 @@
         ng-chosen
         multiple
         ng-model="ctrl.selectedCountries"
-        data-placeholder="Choose an option..."
         datasource="ctrl.countries"
         disable-search="true"
+        select-text="{{ctrl.selectText}}"
         no-results-text="No results found"
         ng-options="country.name for country in ctrl.countries"
         style="width: 350px;">
@@ -34,7 +34,7 @@
         <select
         ng-chosen
         ng-model="ctrl.selectedCountry"
-        data-placeholder="Choose an option..."
+        select-text="Choose an option..."
         datasource="ctrl.countries"
         no-results-text="No results found"
         allow-single-deselect="true"

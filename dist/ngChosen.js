@@ -9,6 +9,7 @@ var ngChosen;
             this.require = "?ngModel";
             this.scope = {
                 noResultsText: "@",
+                selectText: "@",
                 datasource: "=",
                 placeholder: "@",
                 allowSingleDeselect: "@",
@@ -17,6 +18,8 @@ var ngChosen;
             this.link = function (scope, element, attributes, ngModelCtrl) {
                 var elem = element;
                 elem.addClass("ng-chosen").chosen({
+                    placeholder_text_multiple: scope.selectText,
+                    placeholder_text_single: scope.selectText,
                     no_results_text: scope.noResultsText,
                     allow_single_deselect: scope.allowSingleDeselect,
                     disable_search: scope.disableSearch
@@ -32,7 +35,7 @@ var ngChosen;
                         _this.updateState(elem, false, false, false);
                     }
                 });
-                attributes.$observe("placeholder", function (newValue) {
+                attributes.$observe("selectText", function (newValue) {
                     _this.updatePlaceholder(elem, newValue);
                     _this.triggerUpdate(elem);
                 });
@@ -52,9 +55,9 @@ var ngChosen;
         }
         AngularChosenDirective.prototype.updateState = function (element, loading, disabled, showNoResultsText) {
             element.toggleClass("loading", loading).attr("disabled", disabled);
-            var defaultText = element.data("placeholder");
+            var selectText = element.attr("select-text");
             var noResultsText = element.attr("no-results-text");
-            this.updatePlaceholder(element, showNoResultsText ? noResultsText : defaultText);
+            this.updatePlaceholder(element, showNoResultsText ? noResultsText : selectText);
             this.triggerUpdate(element);
         };
         AngularChosenDirective.prototype.isEmpty = function (object) {

@@ -10,6 +10,7 @@ module ngChosenExample {
         public selectedCountries: Array<any> = [];
         public selectedCountry: any;
         public countries: Array<any>;
+        public selectText: string = "Choose a country...";
 
         static $inject = ["$timeout"];
         constructor(private $timeout: ng.ITimeoutService) {

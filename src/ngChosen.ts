@@ -6,9 +6,9 @@ module ngChosen {
 		private updateState(element: any, loading: boolean, disabled: boolean, showNoResultsText: boolean): void {
 			element.toggleClass("loading", loading).attr("disabled", disabled);
 
-			var defaultText = element.data("placeholder");
+			var selectText = element.attr("select-text");
 			var noResultsText = element.attr("no-results-text");
-			this.updatePlaceholder(element, showNoResultsText ? noResultsText : defaultText);
+			this.updatePlaceholder(element, showNoResultsText ? noResultsText : selectText);
 
 			this.triggerUpdate(element);
 		}
@@ -41,6 +41,7 @@ module ngChosen {
         require = "?ngModel";
         scope = {
 			noResultsText: "@",
+			selectText: "@",
 			datasource: "=",
 			placeholder: "@",
 			allowSingleDeselect: "@",
@@ -49,6 +50,8 @@ module ngChosen {
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
 			var elem = element;
 			elem.addClass("ng-chosen").chosen({
+				placeholder_text_multiple: scope.selectText,
+				placeholder_text_single: scope.selectText,
 				no_results_text: scope.noResultsText,
 				allow_single_deselect: scope.allowSingleDeselect,
 				disable_search: scope.disableSearch
@@ -64,7 +67,7 @@ module ngChosen {
 				}
 			});
 
-			attributes.$observe("placeholder", (newValue) => {
+			attributes.$observe("selectText", (newValue) => {
 				this.updatePlaceholder(elem, newValue);
 				this.triggerUpdate(elem);
 			});
