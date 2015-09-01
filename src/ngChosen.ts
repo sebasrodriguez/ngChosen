@@ -5,14 +5,11 @@ module ngChosen {
 	class AngularChosenDirective implements ng.IDirective {
 		private updateState(element: any, loading: boolean, disabled: boolean, showNoResultsText: boolean): void {
 			element.toggleClass("loading", loading).attr("disabled", disabled);
-			var data: any = element.data("chosen");
-			if (data) {
-				if (showNoResultsText) {
-					element.attr("data-placeholder", data.results_none_found);
-				} else {
-					element.attr("data-placeholder", data.defaultText);
-				}
-			}
+
+			var defaultText = element.data("placeholder");
+			var noResultsText = element.attr("no-results-text");
+			this.updatePlaceholder(element, showNoResultsText ? noResultsText : defaultText);
+
 			this.triggerUpdate(element);
 		}
 
@@ -36,12 +33,16 @@ module ngChosen {
 			}
 		}
 
+		private updatePlaceholder(element: any, text: string): void {
+			element.attr("data-placeholder", text);
+		}
+
         restrict = "A";
         require = "?ngModel";
         scope = {
-			placeholder: "@",
 			noResultsText: "@",
 			datasource: "=",
+			placeholder: "@",
 			allowSingleDeselect: "@",
 			disableSearch: "@"
         };
@@ -53,11 +54,6 @@ module ngChosen {
 				disable_search: scope.disableSearch
 			});
 
-			// Save default text for later retrieval
-			var chosen: any = elem.data("chosen");
-			chosen.defaultText = chosen.default_text;
-			elem.data("chosen", chosen);
-
 			scope.$watchCollection("datasource", (newValue, oldValue) => {
 				if (angular.isUndefined(newValue)) {
 					this.updateState(elem, true, true, true);
@@ -66,6 +62,11 @@ module ngChosen {
 				} else {
 					this.updateState(elem, false, false, false);
 				}
+			});
+
+			attributes.$observe("placeholder", (newValue) => {
+				this.updatePlaceholder(elem, newValue);
+				this.triggerUpdate(elem);
 			});
 
 			if (ngModelCtrl) {
