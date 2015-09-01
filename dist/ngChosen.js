@@ -8,9 +8,9 @@ var ngChosen;
             this.restrict = "A";
             this.require = "?ngModel";
             this.scope = {
-                placeholder: "@",
                 noResultsText: "@",
                 datasource: "=",
+                placeholder: "@",
                 allowSingleDeselect: "@",
                 disableSearch: "@"
             };
@@ -21,9 +21,6 @@ var ngChosen;
                     allow_single_deselect: scope.allowSingleDeselect,
                     disable_search: scope.disableSearch
                 });
-                var chosen = elem.data("chosen");
-                chosen.defaultText = chosen.default_text;
-                elem.data("chosen", chosen);
                 scope.$watchCollection("datasource", function (newValue, oldValue) {
                     if (angular.isUndefined(newValue)) {
                         _this.updateState(elem, true, true, true);
@@ -34,6 +31,10 @@ var ngChosen;
                     else {
                         _this.updateState(elem, false, false, false);
                     }
+                });
+                attributes.$observe("placeholder", function (newValue) {
+                    _this.updatePlaceholder(elem, newValue);
+                    _this.triggerUpdate(elem);
                 });
                 if (ngModelCtrl) {
                     var origRender = ngModelCtrl.$render;
@@ -51,15 +52,9 @@ var ngChosen;
         }
         AngularChosenDirective.prototype.updateState = function (element, loading, disabled, showNoResultsText) {
             element.toggleClass("loading", loading).attr("disabled", disabled);
-            var data = element.data("chosen");
-            if (data) {
-                if (showNoResultsText) {
-                    element.attr("data-placeholder", data.results_none_found);
-                }
-                else {
-                    element.attr("data-placeholder", data.defaultText);
-                }
-            }
+            var defaultText = element.data("placeholder");
+            var noResultsText = element.attr("no-results-text");
+            this.updatePlaceholder(element, showNoResultsText ? noResultsText : defaultText);
             this.triggerUpdate(element);
         };
         AngularChosenDirective.prototype.isEmpty = function (object) {
@@ -80,6 +75,9 @@ var ngChosen;
             if (element) {
                 element.trigger("chosen:updated");
             }
+        };
+        AngularChosenDirective.prototype.updatePlaceholder = function (element, text) {
+            element.attr("data-placeholder", text);
         };
         return AngularChosenDirective;
     })();
