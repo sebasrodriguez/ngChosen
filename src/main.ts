@@ -28,6 +28,10 @@ module ngChosenExample {
             console.log(this.selectedCountries);
             console.log(this.selectedCountry);
         }
+
+        public updated(): void {
+            console.log("dropdown updated");
+        }
     }
 
     angular.module("ngChosenExample").controller("ExampleController", ExampleController);

@@ -11,6 +11,7 @@ var ngChosen;
                 noResultsText: "@",
                 selectText: "@",
                 datasource: "=",
+                onChange: "&",
                 placeholder: "@",
                 allowSingleDeselect: "@",
                 disableSearch: "@"
@@ -23,6 +24,11 @@ var ngChosen;
                     no_results_text: scope.noResultsText,
                     allow_single_deselect: scope.allowSingleDeselect,
                     disable_search: scope.disableSearch
+                });
+                elem.chosen().change(function () {
+                    if (scope.onChange) {
+                        scope.onChange();
+                    }
                 });
                 if (elem.attr("datasource") !== undefined) {
                     scope.$watchCollection("datasource", function (newValue, oldValue) {

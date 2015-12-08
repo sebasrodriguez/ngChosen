@@ -20,6 +20,7 @@
     <div ng-controller="ExampleController as ctrl">
         <select
         ng-chosen
+        on-change="ctrl.updated()"
         multiple
         ng-model="ctrl.selectedCountries"
         datasource="ctrl.countries"

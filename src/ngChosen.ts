@@ -43,6 +43,7 @@ module ngChosen {
 			noResultsText: "@",
 			selectText: "@",
 			datasource: "=",
+			onChange: "&",
 			placeholder: "@",
 			allowSingleDeselect: "@",
 			disableSearch: "@"
@@ -55,6 +56,12 @@ module ngChosen {
 				no_results_text: scope.noResultsText,
 				allow_single_deselect: scope.allowSingleDeselect,
 				disable_search: scope.disableSearch
+			});
+
+			elem.chosen().change(() => {
+				if(scope.onChange) {
+					scope.onChange();
+				}
 			});
 
 			if(elem.attr("datasource") !== undefined) {

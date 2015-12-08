@@ -34,7 +34,7 @@ module.exports = function(grunt) {
             },
             scripts: {
                 files: "**/*.ts",
-                tasks: ["ts"]
+                tasks: ["ts:debug"]
             }
         },
         connect: {
