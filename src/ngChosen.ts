@@ -46,7 +46,8 @@ module ngChosen {
 			onChange: "&",
 			placeholder: "@",
 			allowSingleDeselect: "@",
-			disableSearch: "@"
+			disableSearch: "@",
+			enableSplitWordSearch: "&"
         };
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
 			var elem = element;
@@ -55,7 +56,8 @@ module ngChosen {
 				placeholder_text_single: scope.selectText,
 				no_results_text: scope.noResultsText,
 				allow_single_deselect: scope.allowSingleDeselect,
-				disable_search: scope.disableSearch
+				disable_search: scope.disableSearch,
+				enable_split_word_search: scope.enableSplitWordSearch()
 			});
 
 			elem.chosen().change(() => {
