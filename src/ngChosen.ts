@@ -47,7 +47,8 @@ module ngChosen {
 			placeholder: "@",
 			allowSingleDeselect: "@",
 			disableSearch: "@",
-			enableSplitWordSearch: "&"
+			enableSplitWordSearch: "&",
+            ngModel: '='
         };
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
 			var elem = element;
@@ -79,7 +80,15 @@ module ngChosen {
 			} else {
 				this.updateState(elem, false, false, false);
 			}
-
+            
+            if (scope.ngModel !== undefined) {
+                scope.$watch("ngModel", function(newValue, oldValue) {
+                    if (!angular.isUndefined(newValue) && !this.isEmpty(newValue)) {
+                        this.triggerUpdate(elem);
+                    }
+                }, true);
+            }
+            
 			attributes.$observe("selectText", (newValue) => {
 				this.updatePlaceholder(elem, newValue);
 				this.triggerUpdate(elem);
