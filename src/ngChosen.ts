@@ -48,7 +48,8 @@ namespace ngChosen {
             allowSingleDeselect: "@",
             disableSearch: "@",
             enableSplitWordSearch: "&",
-            ngModel: '='
+            ngModel: "=",
+            ngDisabled: "="
         };
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
             let elem = element;
@@ -74,19 +75,29 @@ namespace ngChosen {
                     } else if (this.isEmpty(newValue)) {
                         this.updateState(elem, false, true, true);
                     } else {
-                        this.updateState(elem, false, false, false);
+                        this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
                     }
                 });
             } else {
-                this.updateState(elem, false, false, false);
+                this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
+            }
+
+            if (scope.ngDisabled !== undefined) {
+                scope.$watch("ngDisabled", function(newValue, oldValue) {
+                    if (!angular.isUndefined(newValue) && newValue !== oldValue) {
+                        this.updateState(elem, false, newValue, false);
+                        this.triggerUpdate(elem);
+                    }
+                }.bind(this), true);
             }
 
             if (scope.ngModel !== undefined) {
                 scope.$watch("ngModel", function(newValue, oldValue) {
-                    if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
+                    if (!angular.isUndefined(newValue) && (this.isEmpty && !this.isEmpty(newValue)) && newValue !== oldValue) {
+                        this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
                         this.triggerUpdate(elem);
                     }
-                }, true);
+                }.bind(this), true);
             }
 
             attributes.$observe("selectText", (newValue) => {
@@ -106,7 +117,7 @@ namespace ngChosen {
                     }, ngModelCtrl.$render, true);
                 }
             }
-        }
+        };
     }
 
     /*@ngInject*/

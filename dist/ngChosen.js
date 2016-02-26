@@ -16,7 +16,8 @@ var ngChosen;
                 allowSingleDeselect: "@",
                 disableSearch: "@",
                 enableSplitWordSearch: "&",
-                ngModel: '='
+                ngModel: "=",
+                ngDisabled: "="
             };
             this.link = function (scope, element, attributes, ngModelCtrl) {
                 var elem = element;
@@ -42,16 +43,25 @@ var ngChosen;
                             _this.updateState(elem, false, true, true);
                         }
                         else {
-                            _this.updateState(elem, false, false, false);
+                            _this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
                         }
                     });
                 }
                 else {
-                    _this.updateState(elem, false, false, false);
+                    _this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
+                }
+                if (scope.ngdisabled !== undefined) {
+                    scope.$watch("ngDisabled", function (newValue, oldValue) {
+                        if (!angular.isUndefined(newValue) && (this.isEmpty && !this.isEmpty(newValue)) && newValue !== oldValue) {
+                            this.triggerUpdate(elem, newValue);
+                            this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
+                        }
+                    }, true);
                 }
                 if (scope.ngModel !== undefined) {
                     scope.$watch("ngModel", function (newValue, oldValue) {
-                        if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
+                        if (!angular.isUndefined(newValue) && (this.isEmpty && !this.isEmpty(newValue)) && newValue !== oldValue) {
+                            this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
                             this.triggerUpdate(elem);
                         }
                     }, true);

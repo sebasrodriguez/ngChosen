@@ -11,6 +11,7 @@ module ngChosenExample {
         public selectedCountry: any;
         public countries: Array<any>;
         public selectText: string = "Choose a country...";
+        public isDisabled: boolean = true;
 
         static $inject = ["$timeout"];
         constructor(private $timeout: ng.ITimeoutService) {
@@ -27,6 +28,11 @@ module ngChosenExample {
         public click(): void {
             console.log(this.selectedCountries);
             console.log(this.selectedCountry);
+        }
+
+        public toggleDisability(): void {
+            this.isDisabled = !this.isDisabled;
+            console.log(this.isDisabled);
         }
 
         public updated(): void {
