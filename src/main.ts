@@ -1,5 +1,5 @@
 /// <reference path="../typings/angularjs/angular.d.ts" />
-module ngChosenExample {
+namespace ngChosenExample {
     "use strict";
 
     angular.module("ngChosenExample", [

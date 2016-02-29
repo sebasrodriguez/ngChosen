@@ -48,7 +48,7 @@ namespace ngChosen {
             allowSingleDeselect: "@",
             disableSearch: "@",
             enableSplitWordSearch: "&",
-            ngModel: '='
+            ngModel: "="
         };
         link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
             let elem = element;
@@ -82,7 +82,7 @@ namespace ngChosen {
             }
 
             if (scope.ngModel !== undefined) {
-                scope.$watch("ngModel", function(newValue, oldValue) {
+                scope.$watch("ngModel", (newValue, oldValue) => {
                     if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
                         this.triggerUpdate(elem);
                     }
