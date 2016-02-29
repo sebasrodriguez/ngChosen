@@ -1,6 +1,6 @@
 {
   "name": "chosen-dropdown",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "dist/ngChosen.js",
   "scripts": {
