@@ -35,6 +35,11 @@ namespace ngChosenExample {
             console.log(this.isDisabled);
         }
 
+        public clearCountries(): void {
+            this.selectedCountries = [];
+            console.log("cleared countries: ", this.selectedCountries);
+        }
+
         public updated(): void {
             console.log("dropdown updated");
         }

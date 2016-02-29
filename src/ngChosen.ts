@@ -93,7 +93,7 @@ namespace ngChosen {
 
             if (scope.ngModel !== undefined) {
                 scope.$watch("ngModel", (newValue, oldValue) => {
-                    if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
+                    if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                         this.triggerUpdate(elem);
                     }
                 }, true);
