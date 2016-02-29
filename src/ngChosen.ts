@@ -83,12 +83,12 @@ namespace ngChosen {
             }
 
             if (scope.ngDisabled !== undefined) {
-                scope.$watch("ngDisabled", function(newValue, oldValue) {
+                scope.$watch("ngDisabled",(newValue, oldValue) => {
                     if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                         this.updateState(elem, false, newValue, false);
                         this.triggerUpdate(elem);
                     }
-                }.bind(this), true);
+                }, true);
             }
 
             if (scope.ngModel !== undefined) {
@@ -96,7 +96,7 @@ namespace ngChosen {
                     if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
                         this.triggerUpdate(elem);
                     }
-                }.bind(this), true);
+                }, true);
             }
 
             attributes.$observe("selectText", (newValue) => {

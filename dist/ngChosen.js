@@ -53,17 +53,17 @@ var ngChosen;
                 if (scope.ngDisabled !== undefined) {
                     scope.$watch("ngDisabled", function (newValue, oldValue) {
                         if (!angular.isUndefined(newValue) && newValue !== oldValue) {
-                            this.updateState(elem, false, newValue, false);
-                            this.triggerUpdate(elem);
+                            _this.updateState(elem, false, newValue, false);
+                            _this.triggerUpdate(elem);
                         }
-                    }.bind(_this), true);
+                    }, true);
                 }
                 if (scope.ngModel !== undefined) {
                     scope.$watch("ngModel", function (newValue, oldValue) {
                         if (!angular.isUndefined(newValue) && !_this.isEmpty(newValue) && newValue !== oldValue) {
                             _this.triggerUpdate(elem);
                         }
-                    }, bind(_this), true);
+                    }, true);
                 }
                 attributes.$observe("selectText", function (newValue) {
                     _this.updatePlaceholder(elem, newValue);
