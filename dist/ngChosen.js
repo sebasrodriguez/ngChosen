@@ -50,21 +50,20 @@ var ngChosen;
                 else {
                     _this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
                 }
-                if (scope.ngdisabled !== undefined) {
+                if (scope.ngDisabled !== undefined) {
                     scope.$watch("ngDisabled", function (newValue, oldValue) {
-                        if (!angular.isUndefined(newValue) && (this.isEmpty && !this.isEmpty(newValue)) && newValue !== oldValue) {
-                            this.triggerUpdate(elem, newValue);
-                            this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
+                        if (!angular.isUndefined(newValue) && newValue !== oldValue) {
+                            this.updateState(elem, false, newValue, false);
+                            this.triggerUpdate(elem);
                         }
-                    }, true);
+                    }.bind(_this), true);
                 }
                 if (scope.ngModel !== undefined) {
                     scope.$watch("ngModel", function (newValue, oldValue) {
-                        if (!angular.isUndefined(newValue) && (this.isEmpty && !this.isEmpty(newValue)) && newValue !== oldValue) {
-                            this.updateState(elem, false, (!angular.isUndefined(scope.ngDisabled) && scope.ngDisable), false);
-                            this.triggerUpdate(elem);
+                        if (!angular.isUndefined(newValue) && !_this.isEmpty(newValue) && newValue !== oldValue) {
+                            _this.triggerUpdate(elem);
                         }
-                    }, true);
+                    }, bind(_this), true);
                 }
                 attributes.$observe("selectText", function (newValue) {
                     _this.updatePlaceholder(elem, newValue);
