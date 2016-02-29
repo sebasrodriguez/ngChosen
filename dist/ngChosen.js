@@ -60,7 +60,7 @@ var ngChosen;
                 }
                 if (scope.ngModel !== undefined) {
                     scope.$watch("ngModel", function (newValue, oldValue) {
-                        if (!angular.isUndefined(newValue) && !_this.isEmpty(newValue) && newValue !== oldValue) {
+                        if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                             _this.triggerUpdate(elem);
                         }
                     }, true);
