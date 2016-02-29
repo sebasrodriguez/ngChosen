@@ -16,7 +16,7 @@ var ngChosen;
                 allowSingleDeselect: "@",
                 disableSearch: "@",
                 enableSplitWordSearch: "&",
-                ngModel: '='
+                ngModel: "="
             };
             this.link = function (scope, element, attributes, ngModelCtrl) {
                 var elem = element;
@@ -51,8 +51,8 @@ var ngChosen;
                 }
                 if (scope.ngModel !== undefined) {
                     scope.$watch("ngModel", function (newValue, oldValue) {
-                        if (!angular.isUndefined(newValue) && !this.isEmpty(newValue) && newValue !== oldValue) {
-                            this.triggerUpdate(elem);
+                        if (!angular.isUndefined(newValue) && !_this.isEmpty(newValue) && newValue !== oldValue) {
+                            _this.triggerUpdate(elem);
                         }
                     }, true);
                 }
