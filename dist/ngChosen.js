@@ -54,7 +54,6 @@ var ngChosen;
                     scope.$watch("ngDisabled", function (newValue, oldValue) {
                         if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                             _this.updateState(elem, false, newValue, false);
-                            _this.triggerUpdate(elem);
                         }
                     }, true);
                 }
