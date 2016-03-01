@@ -86,7 +86,6 @@ namespace ngChosen {
                 scope.$watch("ngDisabled",(newValue, oldValue) => {
                     if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                         this.updateState(elem, false, newValue, false);
-                        this.triggerUpdate(elem);
                     }
                 }, true);
             }
