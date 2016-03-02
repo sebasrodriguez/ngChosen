@@ -11,6 +11,7 @@ namespace ngChosenExample {
         public selectedCountry: any;
         public countries: Array<any>;
         public selectText: string = "Choose a country...";
+        public isDisabled: boolean = true;
 
         static $inject = ["$timeout"];
         constructor(private $timeout: ng.ITimeoutService) {
@@ -27,6 +28,16 @@ namespace ngChosenExample {
         public click(): void {
             console.log(this.selectedCountries);
             console.log(this.selectedCountry);
+        }
+
+        public toggleDisability(): void {
+            this.isDisabled = !this.isDisabled;
+            console.log(this.isDisabled);
+        }
+
+        public clearCountries(): void {
+            this.selectedCountries = [];
+            console.log("cleared countries: ", this.selectedCountries);
         }
 
         public updated(): void {

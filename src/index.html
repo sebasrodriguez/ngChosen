@@ -34,6 +34,23 @@
 
         <select
         ng-chosen
+        multiple
+        ng-model="ctrl.selectedCountries"
+        ng-disabled="ctrl.isDisabled"
+        datasource="ctrl.countries"
+        disable-search="true"
+        select-text="{{ctrl.selectText}}"
+        no-results-text="No results found"
+        ng-options="country.name for country in ctrl.countries"
+        style="width: 350px;">
+            <option value=""></option>
+        </select>
+
+        <input type="button" value="toggle isDisabled" ng-click="ctrl.toggleDisability()">
+        <input type="button" value="clear" ng-click="ctrl.clearCountries()">
+
+        <select
+        ng-chosen
         ng-model="ctrl.selectedCountry"
         select-text="Choose an option..."
         datasource="ctrl.countries"
