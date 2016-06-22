@@ -37,39 +37,56 @@ namespace ngChosen {
             element.attr("data-placeholder", text);
         }
 
-        restrict = "A";
-        require = "?ngModel";
-        scope = {
-            noResultsText: "@",
-            selectText: "@",
-            datasource: "=",
-            onChange: "&",
-            placeholder: "@",
-            allowSingleDeselect: "@",
-            disableSearch: "@",
-            enableSplitWordSearch: "&",
-            ngModel: "=",
-            ngDisabled: "="
-        };
-        link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
-            let elem = element;
-            elem.addClass("ng-chosen").chosen({
-                placeholder_text_multiple: scope.selectText,
-                placeholder_text_single: scope.selectText,
-                no_results_text: scope.noResultsText,
-                allow_single_deselect: scope.allowSingleDeselect,
-                disable_search: scope.disableSearch,
-                enable_split_word_search: scope.enableSplitWordSearch()
-            });
-
-            elem.chosen().change(() => {
+        private configureEvents(element: any, scope: any): void {
+            element.chosen().change(() => {
                 if (scope.onChange) {
                     scope.onChange();
                 }
             });
 
+            element.chosen().on("chosen:maxselected", () => {
+                if (scope.onMaxSelected) {
+                    scope.onMaxSelected();
+                }
+            });
+        }
+
+        restrict = "A";
+        require = "?ngModel";
+        scope = {
+            onChange: "&",
+            onMaxSelected: "&",
+            noResultsText: "@",
+            selectText: "@",
+            datasource: "=",
+            placeholder: "@",
+            allowSingleDeselect: "@",
+            disableSearch: "@",
+            enableSplitWordSearch: "&",
+            maxSelectedOptions: "=",
+            ngModel: "=",
+            ngDisabled: "="
+        };
+        link = (scope: any, element: any, attributes: any, ngModelCtrl: ng.INgModelController) => {
+            let elem = element;
+            let options = {
+                placeholder_text_multiple: scope.selectText,
+                placeholder_text_single: scope.selectText,
+                no_results_text: scope.noResultsText,
+                allow_single_deselect: scope.allowSingleDeselect,
+                disable_search: scope.disableSearch,
+                enable_split_word_search: scope.enableSplitWordSearch(),
+                max_selected_options: scope.maxSelectedOptions
+            };
+            let ngDisabledWatch;
+            let ngModelWatch;
+            let datasourceWatch;
+
+            elem.addClass("ng-chosen").chosen(options);
+            this.configureEvents(elem, scope);
+
             if (elem.attr("datasource") !== undefined) {
-                scope.$watchCollection("datasource", (newValue, oldValue) => {
+                datasourceWatch = scope.$watchCollection("datasource", (newValue, oldValue) => {
                     if (angular.isUndefined(newValue)) {
                         this.updateState(elem, true, true, true);
                     } else if (this.isEmpty(newValue)) {
@@ -83,7 +100,7 @@ namespace ngChosen {
             }
 
             if (scope.ngDisabled !== undefined) {
-                scope.$watch("ngDisabled",(newValue, oldValue) => {
+                ngDisabledWatch = scope.$watch("ngDisabled", (newValue, oldValue) => {
                     if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                         this.updateState(elem, false, newValue, false);
                     }
@@ -91,12 +108,24 @@ namespace ngChosen {
             }
 
             if (scope.ngModel !== undefined) {
-                scope.$watch("ngModel", (newValue, oldValue) => {
+                ngModelWatch = scope.$watch("ngModel", (newValue, oldValue) => {
                     if (!angular.isUndefined(newValue) && newValue !== oldValue) {
                         this.triggerUpdate(elem);
                     }
                 }, true);
             }
+
+            scope.$on("$destroy", function () {
+                if (ngDisabledWatch) {
+                    ngDisabledWatch();
+                }
+                if (ngModelWatch) {
+                    ngModelWatch();
+                }
+                if (datasourceWatch) {
+                    datasourceWatch();
+                }
+            });
 
             attributes.$observe("selectText", (newValue) => {
                 this.updatePlaceholder(elem, newValue);
@@ -110,7 +139,7 @@ namespace ngChosen {
                     this.triggerUpdate(elem);
                 };
                 if (attributes.multiple) {
-                    scope.$watch(function() {
+                    scope.$watch(function () {
                         ngModelCtrl.$viewValue;
                     }, ngModelCtrl.$render, true);
                 }

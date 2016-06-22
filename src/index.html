@@ -16,16 +16,18 @@
     <script src="../src/ngChosen.js"></script>
     <script src="main.js"></script>
 </head>
-<body>
-    <div ng-controller="ExampleController as ctrl">
+<body ng-controller="ExampleController as ctrl">
+    <div>
         <select
         ng-chosen
         on-change="ctrl.updated()"
+        on-max-selected="ctrl.maxSelected()"
         multiple
         ng-model="ctrl.selectedCountries"
         datasource="ctrl.countries"
         disable-search="true"
         select-text="{{ctrl.selectText}}"
+        max-selected-options="1"
         no-results-text="No results found"
         ng-options="country.name for country in ctrl.countries"
         style="width: 350px;">
@@ -48,8 +50,10 @@
 
         <input type="button" value="toggle isDisabled" ng-click="ctrl.toggleDisability()">
         <input type="button" value="clear" ng-click="ctrl.clearCountries()">
-
+    </div>
+    <div>
         <select
+        ng-if="ctrl.isVisible"
         ng-chosen
         ng-model="ctrl.selectedCountry"
         select-text="Choose an option..."
@@ -61,8 +65,11 @@
             <option value=""></option>
         </select>
 
-        <input type="button" value="click" text="click" ng-click="ctrl.click()"/>
-
+        <input type="button" value="click" text="Log values" ng-click="ctrl.click()"/>
+        <input type="button" value="hide/show" ng-click="ctrl.isVisible = !ctrl.isVisible"/>
+    </div>
+    <div>
+        <input type="button" value="add country" ng-click="ctrl.addCountry()"/>
     </div>
 </body>
 </html>

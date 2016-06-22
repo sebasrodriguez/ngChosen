@@ -12,6 +12,7 @@ namespace ngChosenExample {
         public countries: Array<any>;
         public selectText: string = "Choose a country...";
         public isDisabled: boolean = true;
+        public isVisible: boolean = true;
 
         static $inject = ["$timeout"];
         constructor(private $timeout: ng.ITimeoutService) {
@@ -28,6 +29,14 @@ namespace ngChosenExample {
         public click(): void {
             console.log(this.selectedCountries);
             console.log(this.selectedCountry);
+        }
+
+        public maxSelected(): void {
+            console.log("max selected");
+        }
+
+        public addCountry(): void {
+            this.countries.push({ name: Date.now().toString() });
         }
 
         public toggleDisability(): void {
